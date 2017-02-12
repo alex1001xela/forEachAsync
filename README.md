@@ -1,5 +1,5 @@
 # forEachAsync
-A forEach loop for asynchronous functions
+A forEach loop for applying asynchronous functions to items in iterable objects
 
 ###How to use:
 
