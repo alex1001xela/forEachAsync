@@ -1,15 +1,16 @@
 "use strict";
 var forEachAsync_1 = require("./forEachAsync");
-var object = {
-    "key1": "This",
-    "key2": "is"
-};
-var array = ["creating", "a", "Hello", "World", "!"];
-var iterations = [object, array, "This should give an error"];
-forEachAsync_1.default(iterations, function (item, next) {
-    forEachAsync_1.default(item, function (item, next) {
+var iterations = [
+    { "key1": "This", "key2": "is" },
+    ["creating", "a", "Hello", "World", "!"],
+    "This should give an error"
+];
+forEachAsync_1.default(iterations, function (item, i, next) {
+    console.log("i: ", i);
+    forEachAsync_1.default(item, function (item, key, next) {
+        console.log("key: ", key);
         setTimeout(function () {
-            console.log(item);
+            console.log("value: ", item);
             next();
         }, 300);
     }, function () {

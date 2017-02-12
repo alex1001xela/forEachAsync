@@ -5,7 +5,8 @@ A forEach loop for asynchronous functions
 
 forEachAsync ( objectLiteralOrArray, doOnIteration, doAfterLastIteration )
 - objectLiteralOrArray
-- doOnIteration (item, next )
+- doOnIteration ( item, indexOrKey, next )
   - item: the item you are currently iterating over
+  - indexOrKey: the current iteration index or key
   - next (): call this to move to the next item
 - doAfterLastIteration ()
