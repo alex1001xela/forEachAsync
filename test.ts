@@ -2,10 +2,6 @@
 
 import forEachAsync from "./forEachAsync";
 
-const array: number[] = new Array(Math.pow(2, 31));
-
-
-
 //Iterate over these with two nested forEachAsync loops
 const iterations = [
 	{"key1": "This", "key2": "is"},

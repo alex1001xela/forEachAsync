@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var forEachAsync_1 = require("./forEachAsync");
-var array = new Array(Math.pow(2, 31));
 var iterations = [
     { "key1": "This", "key2": "is" },
     ["creating", "a", "Hello", "World", "!"],
