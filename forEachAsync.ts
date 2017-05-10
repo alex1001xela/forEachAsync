@@ -32,7 +32,7 @@ function forEachAsync(arrayOrObjectLiteral: Iterable,
 
 	const iterateObject = function (keys: Array<string>): void {
 
-		forEachAsync(keys, (key: string, i: number, next: () => void) => {
+		forEachAsync(keys, (key: string, _i: number, next: () => void) => {
 			doOnIteration(arrayOrObjectLiteral[key], key, next);
 		}, doAfterLastIteration);
 	};

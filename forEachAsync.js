@@ -20,7 +20,7 @@ function forEachAsync(arrayOrObjectLiteral, doOnIteration, doAfterLastIteration)
         }
     };
     var iterateObject = function (keys) {
-        forEachAsync(keys, function (key, i, next) {
+        forEachAsync(keys, function (key, _i, next) {
             doOnIteration(arrayOrObjectLiteral[key], key, next);
         }, doAfterLastIteration);
     };
