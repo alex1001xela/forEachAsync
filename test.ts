@@ -1,11 +1,19 @@
+"use strict";
+
 import forEachAsync from "./forEachAsync";
 
-//Iterate over these with two nested loops
+const array: number[] = new Array(Math.pow(2, 31));
+
+
+
+//Iterate over these with two nested forEachAsync loops
 const iterations = [
 	{"key1": "This", "key2": "is"},
 	["creating", "a", "Hello", "World", "!"],
 	"This should give an error"
 ];
+
+
 
 /*
 Results:
@@ -27,16 +35,16 @@ Results:
  value: !	//stringArray[4]
  i: 2
  Error("Please insert an array, or an object literal")
- */
+*/
 
 forEachAsync(iterations, (item, i, next) => {
 
 	//on iteration of outer loop
 	console.log("i: ", i);
-	forEachAsync(item, (item, key, next) => {
+	forEachAsync(item, (item, keyOrIndex, next) => {
 
 		//on iteration of inner loop
-		console.log("key: ", key);
+		console.log("keyOrIndex: ", keyOrIndex);
 		setTimeout(() => {
 			console.log("value: ", item);
 			next();

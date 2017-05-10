@@ -1,15 +1,21 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function forEachAsync(arrayOrObjectLiteral, doOnIteration, doAfterLastIteration) {
-    var length, i = 0;
+    var length, i;
     var incrementIteration = function () {
         i++;
-        iterateArray();
+        if (i % 1000 === 0) {
+            setTimeout(iterateArray, 0);
+        }
+        else {
+            iterateArray();
+        }
     };
     var iterateArray = function () {
         if (i < length) {
             doOnIteration(arrayOrObjectLiteral[i], i, incrementIteration);
         }
-        else {
+        else if (doAfterLastIteration) {
             doAfterLastIteration();
         }
     };
@@ -19,6 +25,7 @@ function forEachAsync(arrayOrObjectLiteral, doOnIteration, doAfterLastIteration)
         }, doAfterLastIteration);
     };
     if (arrayOrObjectLiteral instanceof Array) {
+        i = 0;
         length = arrayOrObjectLiteral.length;
         iterateArray();
     }
@@ -30,6 +37,5 @@ function forEachAsync(arrayOrObjectLiteral, doOnIteration, doAfterLastIteration)
         throw (new Error("Please insert an array, or an object literal"));
     }
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = forEachAsync;
 //# sourceMappingURL=forEachAsync.js.map
