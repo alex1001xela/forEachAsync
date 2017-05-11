@@ -12,10 +12,10 @@ forEachAsync_1.default(iterations, function (item, i, next) {
         console.log("keyOrIndex: ", keyOrIndex);
         setTimeout(function () {
             console.log("value: ", item);
-            next();
+            return next();
         }, 300);
     }, function () {
-        next();
+        return next();
     });
 }, function () {
     console.log("This shouldn't appear");

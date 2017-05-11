@@ -2,36 +2,31 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 function forEachAsync(arrayOrObjectLiteral, doOnIteration, doAfterLastIteration) {
     var length, i;
-    var incrementIteration = function () {
+    function incrementIteration() {
         i++;
-        if (i % 1000 === 0) {
-            setTimeout(iterateArray, 0);
-        }
-        else {
-            iterateArray();
-        }
-    };
-    var iterateArray = function () {
+        return iterateOrFinish();
+    }
+    function iterateOrFinish() {
         if (i < length) {
-            doOnIteration(arrayOrObjectLiteral[i], i, incrementIteration);
+            return doOnIteration(arrayOrObjectLiteral[i], i, incrementIteration);
         }
         else if (doAfterLastIteration) {
-            doAfterLastIteration();
+            return doAfterLastIteration();
         }
-    };
-    var iterateObject = function (keys) {
-        forEachAsync(keys, function (key, _i, next) {
-            doOnIteration(arrayOrObjectLiteral[key], key, next);
+    }
+    function iterateObject(keys) {
+        return forEachAsync(keys, function (key, _i, next) {
+            return doOnIteration(arrayOrObjectLiteral[key], key, next);
         }, doAfterLastIteration);
-    };
+    }
     if (arrayOrObjectLiteral instanceof Array) {
         i = 0;
         length = arrayOrObjectLiteral.length;
-        iterateArray();
+        return iterateOrFinish();
     }
     else if (arrayOrObjectLiteral instanceof Object) {
         var objectKeys = Object.keys(arrayOrObjectLiteral);
-        iterateObject(objectKeys);
+        return iterateObject(objectKeys);
     }
     else {
         throw (new Error("Please insert an array, or an object literal"));

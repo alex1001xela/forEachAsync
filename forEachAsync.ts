@@ -1,5 +1,3 @@
-"use strict";
-
 interface Iterable {
 	[key: string]: any;
 }
@@ -10,46 +8,41 @@ function forEachAsync(arrayOrObjectLiteral: Iterable,
 
 	let length: number, i: number;
 
-	const incrementIteration = function (): void {
+
+	function incrementIteration(): void {
 		i++;
-		if(i % 1000 === 0){
-				setTimeout(iterateArray, 0);
-		}
-		else{
-			iterateArray();
-		}
+		return iterateOrFinish();
+	}
 
-	};
-
-	const iterateArray = function (): void {
+	function iterateOrFinish(): void {
 		if (i < length) {
-			doOnIteration(arrayOrObjectLiteral[i], i, incrementIteration);
+			return doOnIteration(arrayOrObjectLiteral[i], i, incrementIteration);
 		}
-		else if(doAfterLastIteration) {
-			doAfterLastIteration();
+		else if(doAfterLastIteration){
+			return doAfterLastIteration();
 		}
-	};
+	}
 
-	const iterateObject = function (keys: Array<string>): void {
+	function iterateObject(keys: Array<string>): void {
 
-		forEachAsync(keys, (key: string, _i: number, next: () => void) => {
-			doOnIteration(arrayOrObjectLiteral[key], key, next);
+		return forEachAsync(keys, (key: string, _i: number, next: () => void) => {
+			return doOnIteration(arrayOrObjectLiteral[key], key, next);
 		}, doAfterLastIteration);
-	};
+	}
 
 
-		if (arrayOrObjectLiteral instanceof Array) {
-			i = 0;
-			length = arrayOrObjectLiteral.length;
-			iterateArray();
-		}
-		else if (arrayOrObjectLiteral instanceof Object) {
-			let objectKeys: Array<string> = Object.keys(arrayOrObjectLiteral);
-			iterateObject(objectKeys);
-		}
-		else {
-			throw(new Error("Please insert an array, or an object literal"));
-		}
+	if (arrayOrObjectLiteral instanceof Array) {
+		i = 0;
+		length = arrayOrObjectLiteral.length;
+		return iterateOrFinish();
+	}
+	else if (arrayOrObjectLiteral instanceof Object) {
+		let objectKeys: Array<string> = Object.keys(arrayOrObjectLiteral);
+		return iterateObject(objectKeys);
+	}
+	else {
+		throw(new Error("Please insert an array, or an object literal"));
+	}
 }
 
 export default forEachAsync;

@@ -1,5 +1,3 @@
-"use strict";
-
 import forEachAsync from "./forEachAsync";
 
 //Iterate over these with two nested forEachAsync loops
@@ -8,8 +6,6 @@ const iterations = [
 	["creating", "a", "Hello", "World", "!"],
 	"This should give an error"
 ];
-
-
 
 /*
 Results:
@@ -43,14 +39,31 @@ forEachAsync(iterations, (item, i, next) => {
 		console.log("keyOrIndex: ", keyOrIndex);
 		setTimeout(() => {
 			console.log("value: ", item);
-			next();
+			return next();
 		}, 300);
 
 	}, () => {
 		//on end of inner loop iterate the outer loop
-		next();
+		return next();
 	});
 }, ()=> {
 	//end of outer loop
 	console.log("This shouldn't appear")
 });
+
+/*
+In node.js, only if using it with the --harmony_tailcalls flag, until it is normally implemented.
+Check the 1st note in README.
+
+
+Not a normal use case. Iterate over a big array, applying "accidentally" a synchronous function.
+
+const bigArray = new Array(300000);
+
+forEachAsync(bigArray, (_item, i, next) => {
+	console.log(i);
+	return next();
+}, () => {
+	console.log("end");
+});
+*/
