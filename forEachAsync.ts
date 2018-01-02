@@ -1,8 +1,8 @@
-interface Iterable {
-	[key: string]: any;
-}
+type ObjectLiteral<T> = {[key: string]: T};
 
-function forEachAsync(arrayOrObjectLiteral: Iterable,
+type Iterable<T> = Array<T> | ObjectLiteral<T>;
+
+function forEachAsync<T>(arrayOrObjectLiteral: Iterable<T>,
 					  doOnIteration: (item: any, indexOrKey: number | string, next: () => void) => void,
 					  doAfterLastIteration: () => void): void {
 
@@ -16,17 +16,18 @@ function forEachAsync(arrayOrObjectLiteral: Iterable,
 
 	function iterateOrFinish(): void {
 		if (i < length) {
-			return doOnIteration(arrayOrObjectLiteral[i], i, incrementIteration);
+			let iterable: T = (arrayOrObjectLiteral as Array<T>)[i];
+			return doOnIteration(iterable, i, incrementIteration);
 		}
-		else if(doAfterLastIteration){
+		else if(doAfterLastIteration) {
 			return doAfterLastIteration();
 		}
 	}
 
-	function iterateObject(keys: Array<string>): void {
+	function iterateObject(keys: Iterable<string>): void {
 
 		return forEachAsync(keys, (key: string, _i: number, next: () => void) => {
-			return doOnIteration(arrayOrObjectLiteral[key], key, next);
+			return doOnIteration((arrayOrObjectLiteral as ObjectLiteral<T>)[key], key, next);
 		}, doAfterLastIteration);
 	}
 
@@ -37,11 +38,11 @@ function forEachAsync(arrayOrObjectLiteral: Iterable,
 		return iterateOrFinish();
 	}
 	else if (arrayOrObjectLiteral instanceof Object) {
-		let objectKeys: Array<string> = Object.keys(arrayOrObjectLiteral);
+		let objectKeys: Iterable<string> = Object.keys(arrayOrObjectLiteral) as Iterable<string>;
 		return iterateObject(objectKeys);
 	}
 	else {
-		throw(new Error("Please insert an array, or an object literal"));
+		throw(new Error("Inserted a: " + arrayOrObjectLiteral + ". Please insert an array, or an object literal"));
 	}
 }
 
