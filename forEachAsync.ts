@@ -1,5 +1,4 @@
 type ObjectLiteral<T> = {[key: string]: T};
-
 type Iterable<T> = Array<T> | ObjectLiteral<T>;
 
 function forEachAsync<T>(arrayOrObjectLiteral: Iterable<T>,
