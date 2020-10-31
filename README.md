@@ -1,7 +1,7 @@
 # forEachAsync
 A forEach loop for applying asynchronous functions to items in iterable objects
 
-###How to use:
+### How to use:
 
 forEachAsync ( objectLiteralOrArray, doOnIteration, doAfterLastIteration )
 - objectLiteralOrArray: The object or array you are iterating over
@@ -11,7 +11,7 @@ forEachAsync ( objectLiteralOrArray, doOnIteration, doAfterLastIteration )
   - next (): return this function to move to the next item [1]
 - doAfterLastIteration ()
 
-###Notes:
+### Notes:
 
 1. Tail Calls: Returning the next() function is important with ES6. In case you accidentally
 iterate with a synchronous function over a big iterable, there is a chance
